@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f8fc">
+  <title>LUDA VPN</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root { --bg:#f6f8fc; --card:#fff; --text:#172033; --muted:#718096; --line:#e7ebf3; --blue:#356dff; --purple:#7654f6; --green:#0caa70; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+    .app { max-width:560px; margin:0 auto; min-height:100vh; padding:18px 16px calc(94px + env(safe-area-inset-bottom)); }
+    .top { display:flex; align-items:center; gap:12px; margin:8px 2px 20px; }
+    .logo { width:44px; height:44px; border-radius:15px; background:linear-gradient(140deg,var(--blue),var(--purple)); display:grid; place-items:center; color:white; font-size:23px; box-shadow:0 8px 20px #496eff30; }
+    .brand { font-size:19px; font-weight:800; letter-spacing:-.4px; } .subbrand { color:var(--muted); font-size:12px; margin-top:3px; }
+    .greeting { color:var(--muted); font-size:14px; margin:8px 2px 5px; }
+    h1 { font-size:28px; letter-spacing:-.8px; line-height:1.12; margin:0 2px 18px; }
+    .hero { position:relative; overflow:hidden; border-radius:24px; padding:23px; color:#fff; background:linear-gradient(130deg,#316bff,#7654f6); box-shadow:0 14px 32px #4e6fff30; }
+    .hero:after { content:""; position:absolute; width:180px;height:180px; border-radius:50%; background:#ffffff15; right:-60px; top:-70px; }
+    .hero-label { font-size:12px; opacity:.85; letter-spacing:.7px; text-transform:uppercase; }
+    .hero h2 { font-size:23px; margin:12px 0 8px; line-height:1.18; max-width:280px; }
+    .hero p { margin:0; font-size:14px; opacity:.9; line-height:1.45; max-width:280px; }
+    .hero-icon { position:absolute; right:18px; bottom:18px; font-size:46px; opacity:.95; }
+    .section-head { display:flex; justify-content:space-between; align-items:center; margin:24px 2px 12px; }
+    h3 { font-size:18px; margin:0; letter-spacing:-.3px; }
+    .link { color:var(--blue); font-size:13px; font-weight:700; background:none; border:0; padding:4px 0; }
+    .feature-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .feature { background:var(--card); border:1px solid var(--line); border-radius:17px; padding:15px; min-height:108px; }
+    .feature-icon { width:34px;height:34px;border-radius:12px;background:#edf2ff;display:grid;place-items:center;font-size:17px;margin-bottom:12px; }
+    .feature b { font-size:14px; display:block; margin-bottom:5px; }
+    .feature span { font-size:12px; color:var(--muted); line-height:1.35; display:block; }
+    .plan { border:1px solid var(--line); background:var(--card); border-radius:18px; padding:16px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .plan.selected { border:2px solid var(--blue); padding:15px; box-shadow:0 6px 20px #356dff12; }
+    .plan-name { font-weight:750; font-size:15px; } .plan-note { color:var(--muted); font-size:12px; margin-top:5px; }
+    .price { font-weight:800; font-size:22px; white-space:nowrap; } .price small { font-size:12px; color:var(--muted); font-weight:500; }
+    .radio { width:22px;height:22px;border-radius:50%;border:2px solid #c7d0e0; flex-shrink:0; }
+    .selected .radio { border:6px solid var(--blue); }
+    .primary { width:100%; border:0; border-radius:15px; padding:16px; color:white; background:linear-gradient(100deg,var(--blue),var(--purple)); font-size:15px; font-weight:750; box-shadow:0 8px 18px #4f6fff24; }
+    .secondary { width:100%; border:1px solid var(--line); border-radius:15px; padding:14px; color:var(--text); background:#fff; font-size:14px; font-weight:700; }
+    .note { font-size:12px; color:var(--muted); line-height:1.45; margin:12px 4px; }
+    .status-card { background:#fff; border:1px solid var(--line); border-radius:20px; padding:18px; }
+    .status-pill { display:inline-flex; gap:6px; align-items:center; background:#e8fbf3; color:var(--green); border-radius:30px; padding:7px 10px; font-size:12px; font-weight:750; }
+    .status-title { font-size:20px; font-weight:800; margin:14px 0 6px; }
+    .muted { color:var(--muted); font-size:13px; line-height:1.5; }
+    .rowinfo { display:flex; justify-content:space-between; gap:12px; padding:13px 0; border-bottom:1px solid var(--line); font-size:13px; }
+    .rowinfo:last-child { border-bottom:0; }
+    .support-card { background:#fff; border:1px solid var(--line); border-radius:18px; padding:16px; margin-bottom:10px; display:flex; align-items:center; gap:12px; }
+    .support-ico { width:42px;height:42px;display:grid;place-items:center;background:#edf2ff;border-radius:14px;font-size:20px; }
+    .support-card b { display:block;font-size:14px;margin-bottom:4px; } .support-card span { color:var(--muted);font-size:12px; }
+    .faq { background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;margin-top:10px;font-size:14px; }
+    .faq summary { font-weight:650;cursor:pointer; } .faq p { color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:0; }
+    .bottom { position:fixed; z-index:5; bottom:0; left:50%; transform:translateX(-50%); width:min(560px,100%); padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:#ffffffed; backdrop-filter:blur(16px); border-top:1px solid var(--line); display:grid;grid-template-columns:repeat(4,1fr); gap:5px; }
+    .nav { border:0;background:transparent;color:#8290a7;font-size:11px;padding:7px 1px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px; }
+    .nav .ico { font-size:20px; } .nav.active { color:var(--blue);font-weight:750;background:#edf2ff; }
+    .page { display:none; } .page.active { display:block; }
+    .toast { position:fixed;z-index:10;bottom:100px;left:20px;right:20px;max-width:520px;margin:auto;background:#172033;color:#fff;padding:13px 16px;border-radius:13px;font-size:13px;display:none;box-shadow:0 10px 30px #0002; }
+    @media(min-width:520px){ .app{padding-top:28px;} }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div class="logo">✦</div><div><div class="brand">LUDA VPN</div><div class="subbrand">Ваше спокойствие в сети</div></div>
+    </header>
+
+    <section id="home" class="page active">
+      <div class="greeting" id="greeting">Добро пожаловать</div>
+      <h1>Интернет без<br>лишних границ.</h1>
+      <div class="hero">
+        <div class="hero-label">LUDA VPN · Просто и удобно</div>
+        <h2>Ваш интернет.<br>Ваши правила.</h2>
+        <p>Выберите тариф и управляйте подпиской в одном месте.</p>
+        <div class="hero-icon">🛡️</div>
+      </div>
+      <div class="section-head"><h3>Почему LUDA VPN</h3></div>
+      <div class="feature-grid">
+        <div class="feature"><div class="feature-icon">⚡</div><b>Высокая скорость</b><span>Комфортная работа и просмотр контента.</span></div>
+        <div class="feature"><div class="feature-icon">🔒</div><b>Защита соединения</b><span>Больше приватности в публичных сетях.</span></div>
+        <div class="feature"><div class="feature-icon">📱</div><b>Просто подключить</b><span>Пошаговая инструкция для вашего устройства.</span></div>
+        <div class="feature"><div class="feature-icon">💬</div><b>Поддержка</b><span>Помощь, когда она нужна.</span></div>
+      </div>
+      <div class="section-head"><h3>Выберите тариф</h3><button class="link" onclick="showPage('plans')">Все тарифы →</button></div>
+      <div class="plan selected" onclick="selectPlan('month',this)"><div><div class="plan-name">1 месяц</div><div class="plan-note">Для знакомства с сервисом</div></div><div class="price">99 ₽</div><div class="radio"></div></div>
+      <button class="primary" onclick="buySelected()">Продолжить</button>
+      <p class="note">Сейчас это демонстрационная версия: реальная оплата и выдача VPN-доступа ещё не подключены.</p>
+    </section>
+
+    <section id="plans" class="page">
+      <div class="greeting">LUDA VPN</div><h1>Тарифы</h1>
+      <p class="muted">Выберите подходящий срок подписки.</p>
+      <div class="plan selected" data-plan="month" onclick="selectPlan('month',this)"><div><div class="plan-name">1 месяц</div><div class="plan-note">Оплата за месяц</div></div><div class="price">99 ₽</div><div class="radio"></div></div>
+      <div class="plan" data-plan="3months" onclick="selectPlan('3months',this)"><div><div class="plan-name">3 месяца</div><div class="plan-note">Около 83 ₽ / месяц</div></div><div class="price">250 ₽</div><div class="radio"></div></div>
+      <div class="plan" data-plan="year" onclick="selectPlan('year',this)"><div><div class="plan-name">12 месяцев</div><div class="plan-note">Около 125 ₽ / месяц</div></div><div class="price">1 499 ₽</div><div class="radio"></div></div>
+      <button class="primary" onclick="buySelected()">Выбрать тариф</button>
+      <p class="note">До запуска оплаты нужно настроить платёжный процесс. Для цифровых услуг внутри Telegram требуется Telegram Stars.</p>
+    </section>
+
+    <section id="subscription" class="page">
+      <div class="greeting">Личный кабинет</div><h1>Моя подписка</h1>
+      <div class="status-card">
+        <span class="status-pill">● Демоверсия</span>
+        <div class="status-title">Подписка не активна</div>
+        <p class="muted">Когда подключим сервер и систему подписок, здесь появятся ваш тариф, срок действия и данные для подключения.</p>
+        <div class="rowinfo"><span>Тариф</span><b>—</b></div>
+        <div class="rowinfo"><span>Статус</span><b>Не активна</b></div>
+        <div class="rowinfo"><span>Действует до</span><b>—</b></div>
+        <button class="primary" style="margin-top:16px" onclick="showPage('plans')">Выбрать тариф</button>
+      </div>
+      <p class="note">Не показываем выдуманный статус: данные появятся после подключения базы данных и VPN-панели.</p>
+    </section>
+
+    <section id="guide" class="page">
+      <div class="greeting">Начало работы</div><h1>Как подключиться</h1>
+      <div class="support-card"><div class="support-ico">1</div><div><b>Выберите тариф</b><span>Оформите подписку после запуска оплаты.</span></div></div>
+      <div class="support-card"><div class="support-ico">2</div><div><b>Получите настройки</b><span>Бот выдаст персональную конфигурацию после активации.</span></div></div>
+      <div class="support-card"><div class="support-ico">3</div><div><b>Подключитесь</b><span>Импортируйте конфигурацию в поддерживаемое приложение.</span></div></div>
+      <p class="note">Инструкция по конкретному приложению будет добавлена после выбора VPN-протокола и сервера.</p>
+    </section>
+
+    <section id="support" class="page">
+      <div class="greeting">Мы на связи</div><h1>Поддержка</h1>
+      <p class="muted">Нужна помощь с тарифом или подключением? Напишите администратору.</p>
+      <div class="support-card"><div class="support-ico">💬</div><div><b>Поддержка в Telegram</b><span id="support-name">Добавим username поддержки</span></div></div>
+      <button class="primary" onclick="openSupport()">Написать в поддержку</button>
+      <details class="faq"><summary>Как купить подписку?</summary><p>Выберите тариф в разделе «Тарифы». Реальная оплата пока не включена.</p></details>
+      <details class="faq"><summary>Когда появится доступ?</summary><p>После настройки сервера, оплаты и автоматической выдачи персональной конфигурации.</p></details>
+      <details class="faq"><summary>Что делать, если нужна помощь с оплатой?</summary><p>Свяжитесь с поддержкой. Для платных покупок бот должен обрабатывать обращения по оплате.</p></details>
+    </section>
+  </main>
+
+  <nav class="bottom">
+    <button class="nav active" data-page="home" onclick="showPage('home')"><span class="ico">⌂</span>Главная</button>
+    <button class="nav" data-page="plans" onclick="showPage('plans')"><span class="ico">▤</span>Тарифы</button>
+    <button class="nav" data-page="subscription" onclick="showPage('subscription')"><span class="ico">◉</span>Подписка</button>
+    <button class="nav" data-page="support" onclick="showPage('support')"><span class="ico">☏</span>Поддержка</button>
+  </nav>
+  <div id="toast" class="toast"></div>
+  <script>
+    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.ready(); tg.expand();
+      const firstName = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : "";
+      if (firstName) document.getElementById("greeting").textContent = "Добро пожаловать, " + firstName;
+    }
+    let selectedPlan = "month";
+    const planNames = {month:"1 месяц — 99 ₽", "3months":"3 месяца — 250 ₽", year:"12 месяцев — 1 499 ₽"};
+    function showPage(id) {
+      document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === id));
+      document.querySelectorAll(".nav").forEach(n => n.classList.toggle("active", n.dataset.page === id || (id === "guide" && n.dataset.page === "support")));
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+    function selectPlan(id, el) {
+      selectedPlan = id;
+      document.querySelectorAll(".plan").forEach(p => {
+        if (p.dataset.plan) p.classList.toggle("selected", p.dataset.plan === id);
+      });
+      if (el && el.dataset.plan) selectedPlan = el.dataset.plan;
+    }
+    function toast(message) {
+      const el = document.getElementById("toast"); el.textContent = message; el.style.display = "block";
+      setTimeout(() => el.style.display = "none", 3200);
+    }
+    function buySelected() {
+      toast("Вы выбрали: " + planNames[selectedPlan] + ". Оплата будет подключена на следующем этапе.");
+      if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light");
+    }
+    function openSupport() {
+      toast("Добавьте username поддержки в настройках перед публикацией.");
+    }
+  </script>
+</body>
+</html>
