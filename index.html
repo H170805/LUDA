@@ -50,7 +50,7 @@
     .support-card b { display:block;font-size:14px;margin-bottom:4px; } .support-card span { color:var(--muted);font-size:12px; }
     .faq { background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;margin-top:10px;font-size:14px; }
     .faq summary { font-weight:650;cursor:pointer; } .faq p { color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:0; }
-    .bottom { position:fixed; z-index:5; bottom:0; left:50%; transform:translateX(-50%); width:min(560px,100%); padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:#ffffffed; backdrop-filter:blur(16px); border-top:1px solid var(--line); display:grid;grid-template-columns:repeat(4,1fr); gap:5px; }
+    .bottom { position:fixed; z-index:5; bottom:0; left:50%; transform:translateX(-50%); width:min(560px,100%); padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:#ffffffed; backdrop-filter:blur(16px); border-top:1px solid var(--line); display:grid;grid-template-columns:repeat(5,1fr); gap:4px; }
     .nav { border:0;background:transparent;color:#8290a7;font-size:11px;padding:7px 1px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px; }
     .nav .ico { font-size:20px; } .nav.active { color:var(--blue);font-weight:750;background:#edf2ff; }
     .page { display:none; } .page.active { display:block; }
@@ -116,17 +116,81 @@
     </section>
 
     <section id="guide" class="page">
-      <div class="greeting">Начало работы</div><h1>Как подключиться</h1>
-      <div class="support-card"><div class="support-ico">1</div><div><b>Выберите тариф</b><span>Оформите подписку после запуска оплаты.</span></div></div>
-      <div class="support-card"><div class="support-ico">2</div><div><b>Получите настройки</b><span>Бот выдаст персональную конфигурацию после активации.</span></div></div>
-      <div class="support-card"><div class="support-ico">3</div><div><b>Подключитесь</b><span>Импортируйте конфигурацию в поддерживаемое приложение.</span></div></div>
-      <p class="note">Инструкция по конкретному приложению будет добавлена после выбора VPN-протокола и сервера.</p>
+      <div class="greeting">Быстрый старт</div>
+      <h1>Инструкция по подключению</h1>
+      <div class="hero">
+        <div class="hero-label">LUDA VPN · AmneziaWG</div>
+        <h2>Подключение за несколько шагов</h2>
+        <p>Вам понадобятся приложение AmneziaWG и персональный файл конфигурации от LUDA VPN.</p>
+        <div class="hero-icon">📱</div>
+      </div>
+      <div class="section-head"><h3>Перед началом</h3></div>
+      <div class="support-card"><div class="support-ico">1</div><div><b>Установите AmneziaWG</b><span>Скачивайте приложение только по официальным ссылкам ниже.</span></div></div>
+      <div class="support-card"><div class="support-ico">2</div><div><b>Получите файл от LUDA VPN</b><span>После активации подписки бот отправит персональный файл .conf или инструкцию по его получению.</span></div></div>
+      <div class="support-card"><div class="support-ico">3</div><div><b>Импортируйте конфигурацию</b><span>Добавьте файл в AmneziaWG и разрешите создание VPN-подключения, если устройство спросит.</span></div></div>
+      <div class="support-card"><div class="support-ico">4</div><div><b>Включите VPN</b><span>Нажмите переключатель рядом с добавленным подключением. Готово!</span></div></div>
+      <p class="note">Используйте именно AmneziaWG, а не обычный WireGuard: конфигурация LUDA VPN предназначена для протокола AmneziaWG.</p>
+
+      <div class="section-head"><h3>Выберите своё устройство</h3></div>
+      <details class="faq" open>
+        <summary>🤖 Android</summary>
+        <p><b>1.</b> Установите <a href="https://play.google.com/store/apps/details?id=org.amnezia.awg" target="_blank" rel="noopener">AmneziaWG из Google Play</a>.</p>
+        <p><b>2.</b> Сохраните полученный от LUDA VPN файл конфигурации .conf на телефон.</p>
+        <p><b>3.</b> Откройте AmneziaWG и нажмите «+».</p>
+        <p><b>4.</b> Выберите «Импорт из файла или архива» и найдите файл .conf (обычно он находится в папке «Загрузки»).</p>
+        <p><b>5.</b> Нажмите переключатель рядом с названием подключения. Дождитесь статуса «Подключено».</p>
+      </details>
+      <details class="faq">
+        <summary>🍎 iPhone (iOS)</summary>
+        <p><b>1.</b> Установите <a href="https://apps.apple.com/app/amneziawg/id6478942365" target="_blank" rel="noopener">AmneziaWG из App Store</a>.</p>
+        <p><b>2.</b> Сохраните файл .conf, который вы получили от LUDA VPN, в приложение «Файлы».</p>
+        <p><b>3.</b> Откройте файл и нажмите кнопку «Поделиться».</p>
+        <p><b>4.</b> В списке приложений выберите AmneziaWG. Если его не видно, нажмите «Ещё».</p>
+        <p><b>5.</b> Подтвердите импорт, затем включите переключатель рядом с новым подключением.</p>
+      </details>
+      <details class="faq">
+        <summary>💻 Windows 10 / 11</summary>
+        <p><b>1.</b> Скачайте <a href="https://github.com/amnezia-vpn/amneziawg-windows-client/releases/latest" target="_blank" rel="noopener">AmneziaWG для Windows с официальной страницы релизов</a>. Для большинства современных компьютеров подходит версия x64.</p>
+        <p><b>2.</b> Запустите установщик и завершите установку.</p>
+        <p><b>3.</b> Сохраните файл .conf от LUDA VPN на компьютер.</p>
+        <p><b>4.</b> Откройте AmneziaWG и выберите «Добавить туннель» / импорт из файла.</p>
+        <p><b>5.</b> Выберите файл .conf, импортируйте его и нажмите «Подключить».</p>
+      </details>
+      <details class="faq">
+        <summary>🖥️ macOS</summary>
+        <p><b>1.</b> Установите <a href="https://apps.apple.com/app/amneziawg/id6478942365" target="_blank" rel="noopener">AmneziaWG из Mac App Store</a>.</p>
+        <p><b>2.</b> Сохраните файл .conf от LUDA VPN на Mac.</p>
+        <p><b>3.</b> Откройте AmneziaWG и выберите импорт туннеля из файла.</p>
+        <p><b>4.</b> Найдите файл .conf и нажмите «Импорт».</p>
+        <p><b>5.</b> Если macOS запросит разрешение на добавление VPN-конфигурации, подтвердите его. Затем выберите туннель и включите подключение.</p>
+      </details>
+
+      <div class="section-head"><h3>Важно для безопасности</h3></div>
+      <div class="status-card">
+        <p class="muted">• Не отправляйте свой файл .conf, QR-код или данные подключения посторонним — они дают доступ к вашему VPN.</p>
+        <p class="muted">• Не устанавливайте один и тот же профиль на несколько устройств, если LUDA VPN выдал отдельный файл для каждого устройства.</p>
+        <p class="muted">• Если вы потеряли файл или подозреваете, что он попал к посторонним, обратитесь в поддержку для перевыпуска доступа.</p>
+      </div>
+      <div class="section-head"><h3>Не получилось подключиться?</h3></div>
+      <details class="faq">
+        <summary>Профиль добавлен, но VPN не подключается</summary>
+        <p>Проверьте интернет-соединение, убедитесь, что включён именно профиль LUDA VPN, и попробуйте переключиться между Wi-Fi и мобильной сетью.</p>
+      </details>
+      <details class="faq">
+        <summary>Приложение не принимает файл</summary>
+        <p>Проверьте, что файл имеет расширение .conf и предназначен для AmneziaWG. Не переименовывайте файл в .txt и не открывайте его для редактирования.</p>
+      </details>
+      <details class="faq">
+        <summary>Всё ещё не работает</summary>
+        <p>Напишите в <a href="https://t.me/luda_support" target="_blank" rel="noopener">@luda_support</a> и укажите модель устройства, систему и описание ошибки. Не прикладывайте сам файл конфигурации или QR-код.</p>
+      </details>
+      <button class="primary" style="margin-top:16px" onclick="openSupport()">Написать в поддержку</button>
     </section>
 
     <section id="support" class="page">
       <div class="greeting">Мы на связи</div><h1>Поддержка</h1>
       <p class="muted">Нужна помощь с тарифом или подключением? Напишите администратору.</p>
-      <div class="support-card"><div class="support-ico">💬</div><div><b>Поддержка в Telegram</b><span id="support-name">Добавим username поддержки</span></div></div>
+      <div class="support-card"><div class="support-ico">💬</div><div><b>Поддержка в Telegram</b><span id="support-name">@luda_support</span></div></div>
       <button class="primary" onclick="openSupport()">Написать в поддержку</button>
       <details class="faq"><summary>Как купить подписку?</summary><p>Выберите тариф в разделе «Тарифы». Реальная оплата пока не включена.</p></details>
       <details class="faq"><summary>Когда появится доступ?</summary><p>После настройки сервера, оплаты и автоматической выдачи персональной конфигурации.</p></details>
@@ -138,6 +202,7 @@
     <button class="nav active" data-page="home" onclick="showPage('home')"><span class="ico">⌂</span>Главная</button>
     <button class="nav" data-page="plans" onclick="showPage('plans')"><span class="ico">▤</span>Тарифы</button>
     <button class="nav" data-page="subscription" onclick="showPage('subscription')"><span class="ico">◉</span>Подписка</button>
+    <button class="nav" data-page="guide" onclick="showPage('guide')"><span class="ico">▣</span>Инструкция</button>
     <button class="nav" data-page="support" onclick="showPage('support')"><span class="ico">☏</span>Поддержка</button>
   </nav>
   <div id="toast" class="toast"></div>
@@ -152,7 +217,7 @@
     const planNames = {month:"1 месяц — 99 ₽", "3months":"3 месяца — 250 ₽", year:"12 месяцев — 1 499 ₽"};
     function showPage(id) {
       document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === id));
-      document.querySelectorAll(".nav").forEach(n => n.classList.toggle("active", n.dataset.page === id || (id === "guide" && n.dataset.page === "support")));
+      document.querySelectorAll(".nav").forEach(n => n.classList.toggle("active", n.dataset.page === id));
       window.scrollTo({top:0,behavior:"smooth"});
     }
     function selectPlan(id, el) {
