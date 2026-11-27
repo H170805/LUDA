@@ -30,11 +30,12 @@
     .feature-icon { width:34px;height:34px;border-radius:12px;background:#edf2ff;display:grid;place-items:center;font-size:17px;margin-bottom:12px; }
     .feature b { font-size:14px; display:block; margin-bottom:5px; }
     .feature span { font-size:12px; color:var(--muted); line-height:1.35; display:block; }
-    .plan { border:1px solid var(--line); background:var(--card); border-radius:18px; padding:16px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .plan { border:1px solid var(--line); background:var(--card); border-radius:18px; padding:16px; margin-bottom:10px; display:grid; grid-template-columns:minmax(0,1fr) 112px 22px; align-items:center; column-gap:12px; }
     .plan.selected { border:2px solid var(--blue); padding:15px; box-shadow:0 6px 20px #356dff12; }
+    .plan > div:first-child { min-width:0; }
     .plan-name { font-weight:750; font-size:15px; } .plan-note { color:var(--muted); font-size:12px; margin-top:5px; }
-    .price { font-weight:800; font-size:22px; white-space:nowrap; } .price small { font-size:12px; color:var(--muted); font-weight:500; }
-    .radio { width:22px;height:22px;border-radius:50%;border:2px solid #c7d0e0; flex-shrink:0; }
+    .price { font-weight:800; font-size:22px; white-space:nowrap; text-align:right; font-variant-numeric:tabular-nums; } .price small { font-size:12px; color:var(--muted); font-weight:500; }
+    .radio { width:22px;height:22px;border-radius:50%;border:2px solid #c7d0e0; justify-self:end; }
     .selected .radio { border:6px solid var(--blue); }
     .primary { width:100%; border:0; border-radius:15px; padding:16px; color:white; background:linear-gradient(100deg,var(--blue),var(--purple)); font-size:15px; font-weight:750; box-shadow:0 8px 18px #4f6fff24; }
     .secondary { width:100%; border:1px solid var(--line); border-radius:15px; padding:14px; color:var(--text); background:#fff; font-size:14px; font-weight:700; }
