@@ -50,7 +50,7 @@
     .support-card b { display:block;font-size:14px;margin-bottom:4px; } .support-card span { color:var(--muted);font-size:12px; }
     .faq { background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;margin-top:10px;font-size:14px; }
     .faq summary { font-weight:650;cursor:pointer; } .faq p { color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:0; }
-    .bottom { position:fixed; z-index:5; bottom:0; left:50%; transform:translateX(-50%); width:min(560px,100%); padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:#ffffffed; backdrop-filter:blur(16px); border-top:1px solid var(--line); display:grid;grid-template-columns:repeat(5,1fr); gap:4px; }
+    .bottom { position:fixed; z-index:5; bottom:0; left:50%; transform:translateX(-50%); width:min(560px,100%); padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:#ffffffed; backdrop-filter:blur(16px); border-top:1px solid var(--line); display:grid;grid-template-columns:repeat(4,1fr); gap:4px; }
     .nav { border:0;background:transparent;color:#8290a7;font-size:11px;padding:7px 1px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px; }
     .nav .ico { font-size:20px; } .nav.active { color:var(--blue);font-weight:750;background:#edf2ff; }
     .page { display:none; } .page.active { display:block; }
@@ -80,8 +80,10 @@
         <div class="feature"><div class="feature-icon">📱</div><b>Просто подключить</b><span>Пошаговая инструкция для вашего устройства.</span></div>
         <div class="feature"><div class="feature-icon">💬</div><b>Поддержка</b><span>Помощь, когда она нужна.</span></div>
       </div>
-      <div class="section-head"><h3>Выберите тариф</h3><button class="link" onclick="showPage('plans')">Все тарифы →</button></div>
-      <div class="plan selected" onclick="selectPlan('month',this)"><div><div class="plan-name">1 месяц</div><div class="plan-note">Для знакомства с сервисом</div></div><div class="price">99 ₽</div><div class="radio"></div></div>
+      <div class="section-head"><h3>Выберите тариф</h3></div>
+      <div class="plan selected" data-plan="month" onclick="selectPlan('month',this)"><div><div class="plan-name">1 месяц</div><div class="plan-note">Для знакомства с сервисом</div></div><div class="price">99 ₽</div><div class="radio"></div></div>
+      <div class="plan" data-plan="3months" onclick="selectPlan('3months',this)"><div><div class="plan-name">3 месяца</div><div class="plan-note">Выгоднее при длительном использовании</div></div><div class="price">270 ₽</div><div class="radio"></div></div>
+      <div class="plan" data-plan="year" onclick="selectPlan('year',this)"><div><div class="plan-name">12 месяцев</div><div class="plan-note">Самый выгодный вариант</div></div><div class="price">1 000 ₽</div><div class="radio"></div></div>
       <button class="primary" onclick="buySelected()">Продолжить</button>
       <p class="note">Сейчас это демонстрационная версия: реальная оплата и выдача VPN-доступа ещё не подключены.</p>
       <div style="text-align:center; padding:20px 0; line-height:2;">
@@ -89,16 +91,6 @@
   <a href="terms.html">Пользовательское соглашение</a><br>
   <a href="contacts.html">Контакты</a>
 </div>
-    </section>
-
-    <section id="plans" class="page">
-      <div class="greeting">LUDA VPN</div><h1>Тарифы</h1>
-      <p class="muted">Выберите подходящий срок подписки.</p>
-      <div class="plan selected" data-plan="month" onclick="selectPlan('month',this)"><div><div class="plan-name">1 месяц</div><div class="plan-note">Оплата за месяц</div></div><div class="price">99 ₽</div><div class="radio"></div></div>
-      <div class="plan" data-plan="3months" onclick="selectPlan('3months',this)"><div><div class="plan-name">3 месяца</div><div class="plan-note">Около 83 ₽ / месяц</div></div><div class="price">250 ₽</div><div class="radio"></div></div>
-      <div class="plan" data-plan="year" onclick="selectPlan('year',this)"><div><div class="plan-name">12 месяцев</div><div class="plan-note">Около 125 ₽ / месяц</div></div><div class="price">1 499 ₽</div><div class="radio"></div></div>
-      <button class="primary" onclick="buySelected()">Выбрать тариф</button>
-      <p class="note">До запуска оплаты нужно настроить платёжный процесс. Для цифровых услуг внутри Telegram требуется Telegram Stars.</p>
     </section>
 
     <section id="subscription" class="page">
@@ -110,7 +102,7 @@
         <div class="rowinfo"><span>Тариф</span><b>—</b></div>
         <div class="rowinfo"><span>Статус</span><b>Не активна</b></div>
         <div class="rowinfo"><span>Действует до</span><b>—</b></div>
-        <button class="primary" style="margin-top:16px" onclick="showPage('plans')">Выбрать тариф</button>
+        <button class="primary" style="margin-top:16px" onclick="showPage('home')">Выбрать тариф</button>
       </div>
       <p class="note">Не показываем выдуманный статус: данные появятся после подключения базы данных и VPN-панели.</p>
     </section>
@@ -192,7 +184,7 @@
       <p class="muted">Нужна помощь с тарифом или подключением? Напишите администратору.</p>
       <div class="support-card"><div class="support-ico">💬</div><div><b>Поддержка в Telegram</b><span id="support-name">@luda_support</span></div></div>
       <button class="primary" onclick="openSupport()">Написать в поддержку</button>
-      <details class="faq"><summary>Как купить подписку?</summary><p>Выберите тариф в разделе «Тарифы». Реальная оплата пока не включена.</p></details>
+      <details class="faq"><summary>Как купить подписку?</summary><p>Выберите один из тарифов на главной странице. Реальная оплата пока не включена.</p></details>
       <details class="faq"><summary>Когда появится доступ?</summary><p>После настройки сервера, оплаты и автоматической выдачи персональной конфигурации.</p></details>
       <details class="faq"><summary>Что делать, если нужна помощь с оплатой?</summary><p>Свяжитесь с поддержкой. Для платных покупок бот должен обрабатывать обращения по оплате.</p></details>
     </section>
@@ -200,7 +192,6 @@
 
   <nav class="bottom">
     <button class="nav active" data-page="home" onclick="showPage('home')"><span class="ico">⌂</span>Главная</button>
-    <button class="nav" data-page="plans" onclick="showPage('plans')"><span class="ico">▤</span>Тарифы</button>
     <button class="nav" data-page="subscription" onclick="showPage('subscription')"><span class="ico">◉</span>Подписка</button>
     <button class="nav" data-page="guide" onclick="showPage('guide')"><span class="ico">▣</span>Инструкция</button>
     <button class="nav" data-page="support" onclick="showPage('support')"><span class="ico">☏</span>Поддержка</button>
@@ -214,7 +205,7 @@
       if (firstName) document.getElementById("greeting").textContent = "Добро пожаловать, " + firstName;
     }
     let selectedPlan = "month";
-    const planNames = {month:"1 месяц — 99 ₽", "3months":"3 месяца — 250 ₽", year:"12 месяцев — 1 499 ₽"};
+    const planNames = {month:"1 месяц — 99 ₽", "3months":"3 месяца — 270 ₽", year:"12 месяцев — 1 000 ₽"};
     function showPage(id) {
       document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === id));
       document.querySelectorAll(".nav").forEach(n => n.classList.toggle("active", n.dataset.page === id));
