@@ -30,11 +30,12 @@
     .feature-icon { width:34px;height:34px;border-radius:12px;background:#edf2ff;display:grid;place-items:center;font-size:17px;margin-bottom:12px; }
     .feature b { font-size:14px; display:block; margin-bottom:5px; }
     .feature span { font-size:12px; color:var(--muted); line-height:1.35; display:block; }
-    .plan { border:1px solid var(--line); background:var(--card); border-radius:18px; padding:16px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .plan { border:1px solid var(--line); background:var(--card); border-radius:18px; padding:16px; margin-bottom:10px; display:grid; grid-template-columns:minmax(0,1fr) 112px 22px; align-items:center; column-gap:12px; }
     .plan.selected { border:2px solid var(--blue); padding:15px; box-shadow:0 6px 20px #356dff12; }
+    .plan > div:first-child { min-width:0; }
     .plan-name { font-weight:750; font-size:15px; } .plan-note { color:var(--muted); font-size:12px; margin-top:5px; }
-    .price { font-weight:800; font-size:22px; white-space:nowrap; } .price small { font-size:12px; color:var(--muted); font-weight:500; }
-    .radio { width:22px;height:22px;border-radius:50%;border:2px solid #c7d0e0; flex-shrink:0; }
+    .price { font-weight:800; font-size:22px; white-space:nowrap; text-align:right; font-variant-numeric:tabular-nums; } .price small { font-size:12px; color:var(--muted); font-weight:500; }
+    .radio { width:22px;height:22px;border-radius:50%;border:2px solid #c7d0e0; justify-self:end; }
     .selected .radio { border:6px solid var(--blue); }
     .primary { width:100%; border:0; border-radius:15px; padding:16px; color:white; background:linear-gradient(100deg,var(--blue),var(--purple)); font-size:15px; font-weight:750; box-shadow:0 8px 18px #4f6fff24; }
     .secondary { width:100%; border:1px solid var(--line); border-radius:15px; padding:14px; color:var(--text); background:#fff; font-size:14px; font-weight:700; }
@@ -50,7 +51,7 @@
     .support-card b { display:block;font-size:14px;margin-bottom:4px; } .support-card span { color:var(--muted);font-size:12px; }
     .faq { background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;margin-top:10px;font-size:14px; }
     .faq summary { font-weight:650;cursor:pointer; } .faq p { color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:0; }
-    .bottom { position:fixed; z-index:5; bottom:0; left:50%; transform:translateX(-50%); width:min(560px,100%); padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:#ffffffed; backdrop-filter:blur(16px); border-top:1px solid var(--line); display:grid;grid-template-columns:repeat(4,1fr); gap:5px; }
+    .bottom { position:fixed; z-index:5; bottom:0; left:50%; transform:translateX(-50%); width:min(560px,100%); padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:#ffffffed; backdrop-filter:blur(16px); border-top:1px solid var(--line); display:grid;grid-template-columns:repeat(4,1fr); gap:4px; }
     .nav { border:0;background:transparent;color:#8290a7;font-size:11px;padding:7px 1px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px; }
     .nav .ico { font-size:20px; } .nav.active { color:var(--blue);font-weight:750;background:#edf2ff; }
     .page { display:none; } .page.active { display:block; }
@@ -80,8 +81,10 @@
         <div class="feature"><div class="feature-icon">📱</div><b>Просто подключить</b><span>Пошаговая инструкция для вашего устройства.</span></div>
         <div class="feature"><div class="feature-icon">💬</div><b>Поддержка</b><span>Помощь, когда она нужна.</span></div>
       </div>
-      <div class="section-head"><h3>Выберите тариф</h3><button class="link" onclick="showPage('plans')">Все тарифы →</button></div>
-      <div class="plan selected" onclick="selectPlan('month',this)"><div><div class="plan-name">1 месяц</div><div class="plan-note">Для знакомства с сервисом</div></div><div class="price">99 ₽</div><div class="radio"></div></div>
+      <div class="section-head"><h3>Выберите тариф</h3></div>
+      <div class="plan selected" data-plan="month" onclick="selectPlan('month',this)"><div><div class="plan-name">1 месяц</div><div class="plan-note">Для знакомства с сервисом</div></div><div class="price">99 ₽</div><div class="radio"></div></div>
+      <div class="plan" data-plan="3months" onclick="selectPlan('3months',this)"><div><div class="plan-name">3 месяца</div><div class="plan-note">Выгоднее при длительном использовании</div></div><div class="price">270 ₽</div><div class="radio"></div></div>
+      <div class="plan" data-plan="year" onclick="selectPlan('year',this)"><div><div class="plan-name">12 месяцев</div><div class="plan-note">Самый выгодный вариант</div></div><div class="price">1 000 ₽</div><div class="radio"></div></div>
       <button class="primary" onclick="buySelected()">Продолжить</button>
       <p class="note">Сейчас это демонстрационная версия: реальная оплата и выдача VPN-доступа ещё не подключены.</p>
       <div style="text-align:center; padding:20px 0; line-height:2;">
@@ -89,16 +92,6 @@
   <a href="terms.html">Пользовательское соглашение</a><br>
   <a href="contacts.html">Контакты</a>
 </div>
-    </section>
-
-    <section id="plans" class="page">
-      <div class="greeting">LUDA VPN</div><h1>Тарифы</h1>
-      <p class="muted">Выберите подходящий срок подписки.</p>
-      <div class="plan selected" data-plan="month" onclick="selectPlan('month',this)"><div><div class="plan-name">1 месяц</div><div class="plan-note">Оплата за месяц</div></div><div class="price">99 ₽</div><div class="radio"></div></div>
-      <div class="plan" data-plan="3months" onclick="selectPlan('3months',this)"><div><div class="plan-name">3 месяца</div><div class="plan-note">Около 83 ₽ / месяц</div></div><div class="price">250 ₽</div><div class="radio"></div></div>
-      <div class="plan" data-plan="year" onclick="selectPlan('year',this)"><div><div class="plan-name">12 месяцев</div><div class="plan-note">Около 125 ₽ / месяц</div></div><div class="price">1 499 ₽</div><div class="radio"></div></div>
-      <button class="primary" onclick="buySelected()">Выбрать тариф</button>
-      <p class="note">До запуска оплаты нужно настроить платёжный процесс. Для цифровых услуг внутри Telegram требуется Telegram Stars.</p>
     </section>
 
     <section id="subscription" class="page">
@@ -110,25 +103,89 @@
         <div class="rowinfo"><span>Тариф</span><b>—</b></div>
         <div class="rowinfo"><span>Статус</span><b>Не активна</b></div>
         <div class="rowinfo"><span>Действует до</span><b>—</b></div>
-        <button class="primary" style="margin-top:16px" onclick="showPage('plans')">Выбрать тариф</button>
+        <button class="primary" style="margin-top:16px" onclick="showPage('home')">Выбрать тариф</button>
       </div>
       <p class="note">Не показываем выдуманный статус: данные появятся после подключения базы данных и VPN-панели.</p>
     </section>
 
     <section id="guide" class="page">
-      <div class="greeting">Начало работы</div><h1>Как подключиться</h1>
-      <div class="support-card"><div class="support-ico">1</div><div><b>Выберите тариф</b><span>Оформите подписку после запуска оплаты.</span></div></div>
-      <div class="support-card"><div class="support-ico">2</div><div><b>Получите настройки</b><span>Бот выдаст персональную конфигурацию после активации.</span></div></div>
-      <div class="support-card"><div class="support-ico">3</div><div><b>Подключитесь</b><span>Импортируйте конфигурацию в поддерживаемое приложение.</span></div></div>
-      <p class="note">Инструкция по конкретному приложению будет добавлена после выбора VPN-протокола и сервера.</p>
+      <div class="greeting">Быстрый старт</div>
+      <h1>Инструкция по подключению</h1>
+      <div class="hero">
+        <div class="hero-label">LUDA VPN · AmneziaWG</div>
+        <h2>Подключение за несколько шагов</h2>
+        <p>Вам понадобятся приложение AmneziaWG и персональный файл конфигурации от LUDA VPN.</p>
+        <div class="hero-icon">📱</div>
+      </div>
+      <div class="section-head"><h3>Перед началом</h3></div>
+      <div class="support-card"><div class="support-ico">1</div><div><b>Установите AmneziaWG</b><span>Скачивайте приложение только по официальным ссылкам ниже.</span></div></div>
+      <div class="support-card"><div class="support-ico">2</div><div><b>Получите файл от LUDA VPN</b><span>После активации подписки бот отправит персональный файл .conf или инструкцию по его получению.</span></div></div>
+      <div class="support-card"><div class="support-ico">3</div><div><b>Импортируйте конфигурацию</b><span>Добавьте файл в AmneziaWG и разрешите создание VPN-подключения, если устройство спросит.</span></div></div>
+      <div class="support-card"><div class="support-ico">4</div><div><b>Включите VPN</b><span>Нажмите переключатель рядом с добавленным подключением. Готово!</span></div></div>
+      <p class="note">Используйте именно AmneziaWG, а не обычный WireGuard: конфигурация LUDA VPN предназначена для протокола AmneziaWG.</p>
+
+      <div class="section-head"><h3>Выберите своё устройство</h3></div>
+      <details class="faq" open>
+        <summary>🤖 Android</summary>
+        <p><b>1.</b> Установите <a href="https://play.google.com/store/apps/details?id=org.amnezia.awg" target="_blank" rel="noopener">AmneziaWG из Google Play</a>.</p>
+        <p><b>2.</b> Сохраните полученный от LUDA VPN файл конфигурации .conf на телефон.</p>
+        <p><b>3.</b> Откройте AmneziaWG и нажмите «+».</p>
+        <p><b>4.</b> Выберите «Импорт из файла или архива» и найдите файл .conf (обычно он находится в папке «Загрузки»).</p>
+        <p><b>5.</b> Нажмите переключатель рядом с названием подключения. Дождитесь статуса «Подключено».</p>
+      </details>
+      <details class="faq">
+        <summary>🍎 iPhone (iOS)</summary>
+        <p><b>1.</b> Установите <a href="https://apps.apple.com/app/amneziawg/id6478942365" target="_blank" rel="noopener">AmneziaWG из App Store</a>.</p>
+        <p><b>2.</b> Сохраните файл .conf, который вы получили от LUDA VPN, в приложение «Файлы».</p>
+        <p><b>3.</b> Откройте файл и нажмите кнопку «Поделиться».</p>
+        <p><b>4.</b> В списке приложений выберите AmneziaWG. Если его не видно, нажмите «Ещё».</p>
+        <p><b>5.</b> Подтвердите импорт, затем включите переключатель рядом с новым подключением.</p>
+      </details>
+      <details class="faq">
+        <summary>💻 Windows 10 / 11</summary>
+        <p><b>1.</b> Скачайте <a href="https://github.com/amnezia-vpn/amneziawg-windows-client/releases/latest" target="_blank" rel="noopener">AmneziaWG для Windows с официальной страницы релизов</a>. Для большинства современных компьютеров подходит версия x64.</p>
+        <p><b>2.</b> Запустите установщик и завершите установку.</p>
+        <p><b>3.</b> Сохраните файл .conf от LUDA VPN на компьютер.</p>
+        <p><b>4.</b> Откройте AmneziaWG и выберите «Добавить туннель» / импорт из файла.</p>
+        <p><b>5.</b> Выберите файл .conf, импортируйте его и нажмите «Подключить».</p>
+      </details>
+      <details class="faq">
+        <summary>🖥️ macOS</summary>
+        <p><b>1.</b> Установите <a href="https://apps.apple.com/app/amneziawg/id6478942365" target="_blank" rel="noopener">AmneziaWG из Mac App Store</a>.</p>
+        <p><b>2.</b> Сохраните файл .conf от LUDA VPN на Mac.</p>
+        <p><b>3.</b> Откройте AmneziaWG и выберите импорт туннеля из файла.</p>
+        <p><b>4.</b> Найдите файл .conf и нажмите «Импорт».</p>
+        <p><b>5.</b> Если macOS запросит разрешение на добавление VPN-конфигурации, подтвердите его. Затем выберите туннель и включите подключение.</p>
+      </details>
+
+      <div class="section-head"><h3>Важно для безопасности</h3></div>
+      <div class="status-card">
+        <p class="muted">• Не отправляйте свой файл .conf, QR-код или данные подключения посторонним — они дают доступ к вашему VPN.</p>
+        <p class="muted">• Не устанавливайте один и тот же профиль на несколько устройств, если LUDA VPN выдал отдельный файл для каждого устройства.</p>
+        <p class="muted">• Если вы потеряли файл или подозреваете, что он попал к посторонним, обратитесь в поддержку для перевыпуска доступа.</p>
+      </div>
+      <div class="section-head"><h3>Не получилось подключиться?</h3></div>
+      <details class="faq">
+        <summary>Профиль добавлен, но VPN не подключается</summary>
+        <p>Проверьте интернет-соединение, убедитесь, что включён именно профиль LUDA VPN, и попробуйте переключиться между Wi-Fi и мобильной сетью.</p>
+      </details>
+      <details class="faq">
+        <summary>Приложение не принимает файл</summary>
+        <p>Проверьте, что файл имеет расширение .conf и предназначен для AmneziaWG. Не переименовывайте файл в .txt и не открывайте его для редактирования.</p>
+      </details>
+      <details class="faq">
+        <summary>Всё ещё не работает</summary>
+        <p>Напишите в <a href="https://t.me/luda_support" target="_blank" rel="noopener">@luda_support</a> и укажите модель устройства, систему и описание ошибки. Не прикладывайте сам файл конфигурации или QR-код.</p>
+      </details>
+      <button class="primary" style="margin-top:16px" onclick="openSupport()">Написать в поддержку</button>
     </section>
 
     <section id="support" class="page">
       <div class="greeting">Мы на связи</div><h1>Поддержка</h1>
       <p class="muted">Нужна помощь с тарифом или подключением? Напишите администратору.</p>
-      <div class="support-card"><div class="support-ico">💬</div><div><b>Поддержка в Telegram</b><span id="support-name">Добавим username поддержки</span></div></div>
+      <div class="support-card"><div class="support-ico">💬</div><div><b>Поддержка в Telegram</b><span id="support-name">@luda_support</span></div></div>
       <button class="primary" onclick="openSupport()">Написать в поддержку</button>
-      <details class="faq"><summary>Как купить подписку?</summary><p>Выберите тариф в разделе «Тарифы». Реальная оплата пока не включена.</p></details>
+      <details class="faq"><summary>Как купить подписку?</summary><p>Выберите один из тарифов на главной странице. Реальная оплата пока не включена.</p></details>
       <details class="faq"><summary>Когда появится доступ?</summary><p>После настройки сервера, оплаты и автоматической выдачи персональной конфигурации.</p></details>
       <details class="faq"><summary>Что делать, если нужна помощь с оплатой?</summary><p>Свяжитесь с поддержкой. Для платных покупок бот должен обрабатывать обращения по оплате.</p></details>
     </section>
@@ -136,8 +193,8 @@
 
   <nav class="bottom">
     <button class="nav active" data-page="home" onclick="showPage('home')"><span class="ico">⌂</span>Главная</button>
-    <button class="nav" data-page="plans" onclick="showPage('plans')"><span class="ico">▤</span>Тарифы</button>
     <button class="nav" data-page="subscription" onclick="showPage('subscription')"><span class="ico">◉</span>Подписка</button>
+    <button class="nav" data-page="guide" onclick="showPage('guide')"><span class="ico">▣</span>Инструкция</button>
     <button class="nav" data-page="support" onclick="showPage('support')"><span class="ico">☏</span>Поддержка</button>
   </nav>
   <div id="toast" class="toast"></div>
@@ -149,10 +206,10 @@
       if (firstName) document.getElementById("greeting").textContent = "Добро пожаловать, " + firstName;
     }
     let selectedPlan = "month";
-    const planNames = {month:"1 месяц — 99 ₽", "3months":"3 месяца — 250 ₽", year:"12 месяцев — 1 499 ₽"};
+    const planNames = {month:"1 месяц — 99 ₽", "3months":"3 месяца — 270 ₽", year:"12 месяцев — 1 000 ₽"};
     function showPage(id) {
       document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === id));
-      document.querySelectorAll(".nav").forEach(n => n.classList.toggle("active", n.dataset.page === id || (id === "guide" && n.dataset.page === "support")));
+      document.querySelectorAll(".nav").forEach(n => n.classList.toggle("active", n.dataset.page === id));
       window.scrollTo({top:0,behavior:"smooth"});
     }
     function selectPlan(id, el) {
